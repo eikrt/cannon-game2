@@ -1,0 +1,43 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type spatial;
+render_mode blend_mix,depth_draw_opaque,cull_front,diffuse_burley,specular_schlick_ggx,vertex_lighting;
+
+uniform vec4 grass : source_color;
+uniform vec4 dirt: source_color;
+uniform vec4 rock : source_color;
+
+varying vec4 color;
+void vertex() {
+	color = grass;
+	NORMAL = -NORMAL;
+	
+	if(dot(NORMAL,vec3(0,1,0)) < 0.4) {
+		color = dirt;
+	} 
+	
+	if(dot(NORMAL,vec3(0,1,0)) < -0.6) {
+		color = rock;
+	}
+	
+	if(VERTEX.y < 70.0) {
+		color = dirt;
+	}
+	
+	if(VERTEX.y < 65.0) {
+		color = rock;
+	}
+}
+
+void fragment() {
+	vec2 base_uv = UV;
+	ALBEDO = color.rgb;
+}
+"
+
+[resource]
+shader = SubResource( 1 )
+shader_param/grass = Color( 0.207843, 0.431373, 0.168627, 1 )
+shader_param/dirt = Color( 0.490196, 0.329412, 0.223529, 1 )
+shader_param/rock = Color( 0.32549, 0.32549, 0.32549, 1 )

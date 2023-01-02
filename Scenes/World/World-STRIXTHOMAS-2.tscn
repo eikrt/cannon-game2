@@ -1,0 +1,337 @@
+[gd_scene load_steps=22 format=2]
+
+[ext_resource path="res://Assets/Ground/World3D/World.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Ground/Player/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Assets/Ground/Water/WaterShader.tres" type="Material" id=3]
+[ext_resource path="res://Assets/Ground/World3D/Sun.gd" type="Script" id=4]
+[ext_resource path="res://Assets/GUI/scenes/LoadingScreen.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Assets/Ground/Base/BuildMenu.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Multiplayer/PlayerManager/PlayerManager.tscn" type="PackedScene" id=7]
+
+[sub_resource type="Sky" id=15]
+sky_horizon_color = Color( 0.827451, 0.905882, 0.968627, 1 )
+ground_bottom_color = Color( 0.32549, 0.443137, 0.509804, 1 )
+
+[sub_resource type="Environment" id=2]
+background_mode = 2
+background_sky = SubResource( 15 )
+ambient_light_color = Color( 1, 1, 1, 1 )
+ambient_light_energy = 0.3
+ambient_light_sky_contribution = 0.0
+fog_enabled = true
+fog_color = Color( 0.32549, 0.443137, 0.509804, 1 )
+fog_depth_begin = 50.0
+fog_depth_end = 100.0
+fog_transmit_enabled = true
+auto_exposure_scale = 0.3
+ssr_fade_in = 0.369344
+ssr_fade_out = 3.03145
+glow_enabled = true
+glow_levels/1 = true
+glow_levels/2 = true
+glow_levels/4 = true
+glow_intensity = 8.0
+glow_strength = 1.15
+glow_blend_mode = 1
+glow_bicubic_upscale = true
+adjustment_enabled = true
+
+[sub_resource type="PlaneMesh" id=3]
+size = Vector2( 200, 200 )
+subdivide_width = 80
+subdivide_depth = 80
+
+[sub_resource type="SphereMesh" id=4]
+
+[sub_resource type="VisualShaderNodeInput" id=5]
+input_name = "camera"
+
+[sub_resource type="VisualShaderNodeInput" id=6]
+input_name = "vertex"
+
+[sub_resource type="VisualShaderNodeTransformVecMult" id=7]
+
+[sub_resource type="VisualShaderNodeVectorDecompose" id=8]
+
+[sub_resource type="VisualShaderNodeFloatOp" id=9]
+default_input_values = [ 0, 0.0, 1, 2.0 ]
+
+[sub_resource type="VisualShaderNodeVectorCompose" id=10]
+default_input_values = [ 0, 10.0, 1, 10.0, 2, 10.0 ]
+
+[sub_resource type="VisualShader" id=11]
+code = "shader_type spatial;
+render_mode unshaded, shadows_disabled, ambient_light_disabled, vertex_lighting;
+
+
+
+
+void vertex() {
+// Output:0
+
+}
+
+void fragment() {
+// Invoer:2
+	mat4 n_out2p0;
+	n_out2p0 = INV_VIEW_MATRIX;
+
+// Invoer:3
+	vec3 n_out3p0;
+	n_out3p0 = VERTEX;
+
+// TransformVectorMult:4
+	vec3 n_out4p0;
+	n_out4p0 = ( n_out2p0 * vec4(n_out3p0, 1.0) ).xyz;
+
+// VectorDecompose:5
+	float n_out5p0;
+	float n_out5p1;
+	float n_out5p2;
+	n_out5p0 = n_out4p0.x;
+	n_out5p1 = n_out4p0.y;
+	n_out5p2 = n_out4p0.z;
+
+// ScalarOp:6
+	float n_in6p1 = 2.00000;
+	float n_out6p0;
+	n_out6p0 = n_out5p1 + n_in6p1;
+
+// VectorCompose:7
+	float n_in7p0 = 10.00000;
+	float n_in7p1 = 10.00000;
+	float n_in7p2 = 10.00000;
+	vec3 n_out7p0;
+	n_out7p0 = vec3( n_in7p0 , n_in7p1 , n_in7p2 );
+
+// Output:0
+	ALPHA = n_out6p0;
+	EMISSION = n_out7p0;
+
+}
+
+void light() {
+// Output:0
+
+}
+"
+graph_offset = Vector2( -384.08, 147 )
+flags/ambient_light_disabled = true
+flags/shadows_disabled = true
+flags/unshaded = true
+flags/vertex_lighting = true
+nodes/fragment/0/position = Vector2( 720, 120 )
+nodes/fragment/2/node = SubResource( 5 )
+nodes/fragment/2/position = Vector2( -300, 280 )
+nodes/fragment/3/node = SubResource( 6 )
+nodes/fragment/3/position = Vector2( -300, 360 )
+nodes/fragment/4/node = SubResource( 7 )
+nodes/fragment/4/position = Vector2( -60, 280 )
+nodes/fragment/5/node = SubResource( 8 )
+nodes/fragment/5/position = Vector2( 200, 280 )
+nodes/fragment/6/node = SubResource( 9 )
+nodes/fragment/6/position = Vector2( 440, 280 )
+nodes/fragment/7/node = SubResource( 10 )
+nodes/fragment/7/position = Vector2( 420, 160 )
+nodes/fragment/connections = PackedInt32Array( 3, 0, 4, 1, 2, 0, 4, 0, 4, 0, 5, 0, 5, 1, 6, 0, 6, 0, 0, 1, 7, 0, 0, 5 )
+
+[sub_resource type="ShaderMaterial" id=12]
+shader = SubResource( 11 )
+
+[sub_resource type="Animation" id=13]
+length = 10.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("../WorldEnvironment:environment:background_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PackedFloat32Array( 0, 10 ),
+"transitions": PackedFloat32Array( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 16.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("../WorldEnvironment:environment:ambient_light_energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PackedFloat32Array( 0, 10 ),
+"transitions": PackedFloat32Array( 1, 1 ),
+"update": 0,
+"values": [ 0.01, 0.3 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("../sunlight:light_energy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PackedFloat32Array( 0, 10 ),
+"transitions": PackedFloat32Array( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("../DirectionalLight3D:light_energy")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PackedFloat32Array( 0, 8 ),
+"transitions": PackedFloat32Array( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("../DirectionalLight3D:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PackedFloat32Array( 0, 0.3 ),
+"transitions": PackedFloat32Array( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("../WorldEnvironment:environment:fog_color")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PackedFloat32Array( 0, 10 ),
+"transitions": PackedFloat32Array( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 0.227451, 0.337255, 0.403922, 1 ) ]
+}
+
+[sub_resource type="Animation" id=14]
+length = 10.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("../WorldEnvironment:environment:background_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PackedFloat32Array( 0, 10 ),
+"transitions": PackedFloat32Array( 1, 1 ),
+"update": 0,
+"values": [ 16.0, 1.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("../sunlight:light_energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PackedFloat32Array( 0, 10 ),
+"transitions": PackedFloat32Array( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("../WorldEnvironment:environment:ambient_light_energy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PackedFloat32Array( 0, 10 ),
+"transitions": PackedFloat32Array( 1, 1 ),
+"update": 0,
+"values": [ 0.3, 0.01 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("../DirectionalLight3D:light_energy")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PackedFloat32Array( 0, 5, 10 ),
+"transitions": PackedFloat32Array( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.1, 0.0, 0.0 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("../DirectionalLight3D:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PackedFloat32Array( 0, 5 ),
+"transitions": PackedFloat32Array( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("../WorldEnvironment:environment:fog_color")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PackedFloat32Array( 0, 10 ),
+"transitions": PackedFloat32Array( 1, 1 ),
+"update": 0,
+"values": [ Color( 0.227451, 0.337255, 0.403922, 1 ), Color( 0, 0, 0, 1 ) ]
+}
+
+[node name="World3D" type="Node3D"]
+process_mode = 2
+script = ExtResource( 1 )
+
+[node name="Player" parent="." instance=ExtResource( 2 )]
+process_mode = 1
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 100, 0 )
+
+[node name="sunlight" type="DirectionalLight3D" parent="."]
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 2 )
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D( 0.801847, -2.61188e-008, 0.597529, -0.597529, -3.50499e-008, 0.801847, 0, -1, -4.37114e-008, 0, 0, 0 )
+light_energy = 0.1
+
+[node name="Water" type="MeshInstance3D" parent="."]
+process_mode = 2
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.73516, 0, -0.688 )
+mesh = SubResource( 3 )
+material/0 = ExtResource( 3 )
+
+[node name="Sun" type="Node3D" parent="."]
+process_mode = 1
+transform = Transform3D( 1, 0, 0, 0, -0.425978, 0.904734, 0, -0.904734, -0.425978, 0, 0, 0 )
+visible = false
+script = ExtResource( 4 )
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Sun"]
+transform = Transform3D( 15, 0, 0, 0, 15, 4.76837e-007, 0, -4.76837e-007, 15, 0, 3.8147e-006, 130 )
+cast_shadow = 0
+mesh = SubResource( 4 )
+material/0 = SubResource( 12 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sun"]
+playback_speed = 0.2
+anims/turnDay = SubResource( 13 )
+anims/turnNight = SubResource( 14 )
+
+[node name="LoadingScreen" parent="." instance=ExtResource( 5 )]
+
+[node name="BuildMenu" parent="." instance=ExtResource( 6 )]
+
+[node name="PlayerManager" parent="." instance=ExtResource( 7 )]
+process_mode = 1
