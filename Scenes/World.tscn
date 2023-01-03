@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://bgo3sr5h5vfpg"]
+
+[ext_resource type="Script" path="res://Scripts/World.gd" id="1_1s24n"]
+[ext_resource type="PackedScene" uid="uid://c8m51laarjuak" path="res://Scenes/Player.tscn" id="3_34361"]
+[ext_resource type="Script" path="res://Scripts/Camera3d.gd" id="4_fj2l0"]
+
+[node name="World" type="Node3D"]
+script = ExtResource("1_1s24n")
+
+[node name="Player" parent="." instance=ExtResource("3_34361")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 180.55, 128.569, 211.781)
+
+[node name="SunLight" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.752095, 0.659054, 0, -0.659054, -0.752095, 0, 0, 0)
+light_color = Color(1, 0.952941, 0.776471, 1)
+shadow_enabled = true
+
+[node name="ExtraLight" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.78491, -0.61961, 0, 0.61961, 0.78491, 0, 0, 0)
+light_color = Color(1, 0.952941, 0.776471, 1)
+light_energy = 0.1
+
+[node name="Camera3d2" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.878834, 0.477128, 0, -0.477128, 0.878834, -180.55, -125.827, -209.685)
+script = ExtResource("4_fj2l0")

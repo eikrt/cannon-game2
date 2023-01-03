@@ -1,9 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://bf4qxopslx00o"]
+[gd_scene load_steps=4 format=3 uid="uid://bf4qxopslx00o"]
 
 [ext_resource type="Script" path="res://Scripts/Chunk.gd" id="1"]
-[ext_resource type="Script" path="res://Scripts/World.gd" id="1_eeb7s"]
-[ext_resource type="PackedScene" uid="uid://c8m51laarjuak" path="res://Scenes/Player.tscn" id="2"]
-[ext_resource type="Script" path="res://Scripts/Camera3d.gd" id="3_d7fvh"]
 
 [sub_resource type="Shader" id="1"]
 code = "shader_type spatial;
@@ -40,29 +37,9 @@ shader_parameter/dirt = Color(0.490196, 0.329412, 0.223529, 1)
 shader_parameter/grass = Color(0.207843, 0.431373, 0.168627, 1)
 shader_parameter/rock = Color(0.32549, 0.32549, 0.32549, 1)
 
-[node name="Node3d" type="Node3D"]
-script = ExtResource("1_eeb7s")
-
-[node name="Chunk" type="Node3D" parent="."]
+[node name="Chunk" type="Node3D"]
 script = ExtResource("1")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Chunk"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0109868, 0)
 material_override = SubResource("2")
-
-[node name="Player" parent="." instance=ExtResource("2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 180.55, 128.569, 211.781)
-
-[node name="SunLight" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -0.752095, 0.659054, 0, -0.659054, -0.752095, 0, 0, 0)
-light_color = Color(1, 0.952941, 0.776471, 1)
-shadow_enabled = true
-
-[node name="ExtraLight" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.78491, -0.61961, 0, 0.61961, 0.78491, 0, 0, 0)
-light_color = Color(1, 0.952941, 0.776471, 1)
-light_energy = 0.1
-
-[node name="Camera3d2" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.878834, 0.477128, 0, -0.477128, 0.878834, -180.55, -125.827, -209.685)
-script = ExtResource("3_d7fvh")

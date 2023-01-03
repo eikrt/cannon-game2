@@ -2,37 +2,29 @@ extends Node3D
 
 
 var blockArray = []
-var size = 40
-var height = 10
+var size = 12
+var height = 6
 var blockSize = 10.0
 var blockScene = load("res://Scenes/Block.tscn")
 var surfaceLevel = 0
 
 var SEED = 10
 var noise
-
-func _process(delta):
-	if Input.is_action_pressed("SHOOT"):
-		delete_things()
-func delete_things():
-
-	var player_chunk_x = floor(Globaldata.player_position.x / blockSize) 
-	var player_chunk_y = floor(Globaldata.player_position.y / blockSize)
-	var player_chunk_z = floor(Globaldata.player_position.z / blockSize)
-	if player_chunk_x > size or player_chunk_z > size:
-		return
-	if player_chunk_y > height - 1:
-		return
-	var block = blockArray[player_chunk_x][player_chunk_y][player_chunk_z]
-	block.sample = surfaceLevel
+func delete_things(block_x, block_y, block_z):
+	print(block_x, block_y, block_z)
+	var block = blockArray[block_x][block_y][block_z]
+	block.sample = surfaceLevel + 1
 	createTerrain()
-	
-func _ready():
-	createGrid()
+
+func init(chunk_x,chunk_y,chunk_z, size, height, blockSize, surfaceLevel):
+	self.size = size
+	self.height = height
+	self.blockSize = blockSize
+	self.surfaceLevel = surfaceLevel
+	createGrid(chunk_x,chunk_y,chunk_z)
 	addGridToWorld()
 	generateTerrain()
 	createTerrain()
-	
 func createTerrain():
 	var vertices = createVerticesArray()
 	var mesh = createMesh(vertices)
@@ -47,7 +39,7 @@ func createCollider(vertices):
 	var sb = StaticBody3D.new()
 	sb.add_child(cs)
 	add_child(sb)
-func createGrid():
+func createGrid(chunk_x, chunk_y, chunk_z):
 	size += 1
 	for x in range(size):
 		var yArray = []
@@ -58,8 +50,8 @@ func createGrid():
 			for z in range(size):
 				var blockInstance = blockScene.instantiate()
 				zArray.append(blockInstance)
-				blockInstance.position = Vector3(x*blockSize,y*blockSize,z*blockSize)
-				blockInstance.gridTranslation = Vector3(x,y,z)
+				blockInstance.position = Vector3((chunk_x * (size-1) + x)*blockSize,(chunk_y * (height-1) +y)*blockSize,(chunk_z * (size-1)+z)*blockSize)
+				blockInstance.gridTranslation = Vector3(chunk_x *size + x,chunk_y *height + y,chunk_z * size + z)
 
 func generateTerrain():
 	noise = FastNoiseLite.new()
