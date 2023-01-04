@@ -1,8 +1,5 @@
 res://Scenes/Player.tscn
-res://Scripts/Block.gd
-res://Scenes/Chunk.tscn
+res://Scenes/World.tscn
 res://Scenes/Block.tscn
 res://Scripts/Chunk.gd
-res://Scripts/KinematicBody.gd
 res://Scripts/World.gd
-res://Scenes/World.tscn

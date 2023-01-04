@@ -11,7 +11,6 @@ var surfaceLevel = 0
 var SEED = 10
 var noise
 func delete_things(block_x, block_y, block_z):
-	print(block_x, block_y, block_z)
 	var block = blockArray[block_x][block_y][block_z]
 	block.sample = surfaceLevel + 1
 	createTerrain()
@@ -21,6 +20,7 @@ func init(chunk_x,chunk_y,chunk_z, size, height, blockSize, surfaceLevel):
 	self.height = height
 	self.blockSize = blockSize
 	self.surfaceLevel = surfaceLevel
+	triangleTranslations = calculateTriangleTranslations()
 	createGrid(chunk_x,chunk_y,chunk_z)
 	addGridToWorld()
 	generateTerrain()
@@ -61,8 +61,7 @@ func generateTerrain():
 			for z in range(size):
 				var block = blockArray[x][y][z]
 				block.sample = -abs(noise.get_noise_3d(block.position.x,block.position.y,block.position.z))*10 + block.position.y
-				
-#				ADD HILLS TO THE WORLD.
+
 				var hillSample = noise.get_noise_3d(block.position.x,block.position.y,block.position.z)*100 + block.position.y*1
 				if hillSample < block.sample:
 					block.sample = hillSample
@@ -86,7 +85,6 @@ func createVerticesArray():
 						if n != -1:
 							var position = triangleTranslations[n]
 							
-#							This smoothes out the terrain. Try commenting this out and see the result!
 							if validBlock(x+1,y,z) and n == 0:
 								position.x = calculateSurfacePos(block.sample,blockArray[x+1][y][z].sample)
 							if validBlock(x,y,z+1) and validBlock(x+1,y,z+1) and n == 2:
@@ -204,13 +202,14 @@ func calculateSurfacePos(sample, sample2):
 	
 	return blockSize/2
 
-var triangleTranslations = [Vector3(blockSize/2,0,0),Vector3(blockSize,0,blockSize/2),Vector3(blockSize/2,0,blockSize),Vector3(0,0,blockSize/2),
+func calculateTriangleTranslations():
+	return [Vector3(blockSize/2,0,0),Vector3(blockSize,0,blockSize/2),Vector3(blockSize/2,0,blockSize),Vector3(0,0,blockSize/2),
 
 Vector3(blockSize/2,blockSize,0),Vector3(blockSize,blockSize,blockSize/2),Vector3(blockSize/2,blockSize,blockSize),Vector3(0,blockSize,blockSize/2),
 
 Vector3(0,blockSize/2,0),Vector3(blockSize,blockSize/2,0),Vector3(blockSize,blockSize/2,blockSize),Vector3(0,blockSize/2,blockSize)
 ]
-
+var triangleTranslations = calculateTriangleTranslations()
 const triangleArray = [[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
 [0, 8, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
 [0, 1, 9, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],

@@ -2,8 +2,8 @@ extends Node3D
 
 @onready var Chunk = preload("res://Scenes/Chunk.tscn")
 var chunk_size = 12
-var height = 6
-var blockSize = 10.0
+var height = 12
+var blockSize = 2.0
 var surfaceLevel = 0
 var world_size = 4
 var chunksArray = []
@@ -21,18 +21,17 @@ func _ready():
 				chunk_instance.init(x,y,z, chunk_size,height,blockSize, surfaceLevel)
 				zArray.append(chunk_instance)
 				add_child(chunk_instance)
-
 func _process(delta):
-
 	if Input.is_action_pressed("SHOOT"):
 		delete_things()
 func delete_things():
-	var p_b_x = floor(Globaldata.player_position.x / chunk_size)
+	var blockChunks = chunk_size
+	var p_b_x = Globaldata.player_position.x / blockSize
 	var p_c_x = floor(p_b_x / chunk_size)
-	var r_p_b_x = p_b_x - p_c_x * (chunk_size)
-	var p_b_z = floor(Globaldata.player_position.z / chunk_size)
+	var r_p_b_x = p_b_x - p_c_x * chunk_size
+	var p_b_z = Globaldata.player_position.z / blockSize
 	var p_c_z = floor(p_b_z / chunk_size)
-	var r_p_b_z = p_b_z - p_c_z * (chunk_size)
-	var p_b_y = floor(Globaldata.player_position.y / height)
+	var r_p_b_z = p_b_z - p_c_z * chunk_size
+	var p_b_y = floor(Globaldata.player_position.y / blockSize)
 	var chunk = chunksArray[p_c_x][0][p_c_z]
 	chunk.delete_things(r_p_b_x, p_b_y, r_p_b_z)
