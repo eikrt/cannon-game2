@@ -1,5 +1,5 @@
 res://Scenes/Player.tscn
 res://Scenes/World.tscn
 res://Scenes/Block.tscn
-res://Scripts/Chunk.gd
+res://Scenes/Chunk.tscn
 res://Scripts/World.gd

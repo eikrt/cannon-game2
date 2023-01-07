@@ -11,15 +11,15 @@ script = ExtResource("1_1s24n")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.57463, 128.569, 12.3476)
 
 [node name="SunLight" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -0.752095, 0.659054, 0, -0.659054, -0.752095, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, -0.752095, 0.659054, 0, -0.659054, -0.752095, 0, 152.335, 0)
 light_color = Color(1, 0.952941, 0.776471, 1)
 shadow_enabled = true
-
-[node name="ExtraLight" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.78491, -0.61961, 0, 0.61961, 0.78491, 0, 0, 0)
-light_color = Color(1, 0.952941, 0.776471, 1)
-light_energy = 0.1
 
 [node name="Camera3d2" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.878834, 0.477128, 0, -0.477128, 0.878834, -180.55, -125.827, -209.685)
 script = ExtResource("4_fj2l0")
+
+[node name="DirectionalLight3d" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 409.091, 0)
+light_color = Color(0.952941, 0.72549, 0.403922, 1)
+light_energy = 0.2

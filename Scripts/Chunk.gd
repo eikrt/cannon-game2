@@ -3,23 +3,38 @@ extends Node3D
 
 var blockArray = []
 var size = 12
-var height = 6
+var height = 12
 var blockSize = 10.0
 var blockScene = load("res://Scenes/Block.tscn")
 var surfaceLevel = 0
 
 var SEED = 10
 var noise
+var shape = ConcavePolygonShape3D.new()
+var cs = CollisionShape3D.new()
+var sb = StaticBody3D.new()
+func _ready():
+	shape.set_backface_collision_enabled(true)
+	cs.set_shape(shape)
+	sb.add_child(cs)
+	add_child(sb)
 func delete_things(block_x, block_y, block_z):
+	if block_x < 0 or block_x > Constants.chunkSize:
+		return
+	if block_z < 0 or block_z > Constants.chunkSize:
+		return
+	if block_y < 0 or block_y > Constants.height - 1:
+		return
 	var block = blockArray[block_x][block_y][block_z]
 	block.sample = surfaceLevel + 1
+func commit_changes():
 	createTerrain()
 
-func init(chunk_x,chunk_y,chunk_z, size, height, blockSize, surfaceLevel):
-	self.size = size
-	self.height = height
-	self.blockSize = blockSize
-	self.surfaceLevel = surfaceLevel
+func init(chunk_x,chunk_y,chunk_z):
+	self.size = Constants.chunkSize
+	self.height = Constants.height
+	self.blockSize = Constants.blockSize
+	self.surfaceLevel = Constants.surfaceLevel
 	triangleTranslations = calculateTriangleTranslations()
 	createGrid(chunk_x,chunk_y,chunk_z)
 	addGridToWorld()
@@ -31,14 +46,8 @@ func createTerrain():
 	createCollider(vertices)
 	$MeshInstance3D.mesh = mesh
 func createCollider(vertices): 
-	var shape = ConcavePolygonShape3D.new()
-	shape.set_backface_collision_enabled(true)
 	shape.set_faces(vertices)
-	var cs = CollisionShape3D.new()
-	cs.set_shape(shape)
-	var sb = StaticBody3D.new()
-	sb.add_child(cs)
-	add_child(sb)
+
 func createGrid(chunk_x, chunk_y, chunk_z):
 	size += 1
 	for x in range(size):
