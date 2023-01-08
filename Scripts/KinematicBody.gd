@@ -8,11 +8,13 @@ var pmouse = Vector2()
 var moveMouse = true
 var directionRot = Vector3(0,0,0)
 var Projectile = load("res://Scenes/Projectile.tscn")
+var Water = load("res://Scripts/Water.tscn")
 var rayOrigin = Vector3()
 var rayEnd = Vector3()
 var moveTarget = Vector3()
 var movingToTarget = false
 var moveRotation = Vector3()
+var spawning = true
 const directionLimitYU = 3.14
 const directionLimitYD = 0.0
 const directionPlus = 3.14/2.0
@@ -25,11 +27,21 @@ func _ready():
 	pass
 
 	pass
+func spawn():
+	position = Vector3(randi_range(0, Constants.blockSize * Constants.worldSize * Constants.chunkSize),10,randi_range(0, Constants.blockSize * Constants.worldSize * Constants.chunkSize))
 func _input(event):
 	var mouse = get_viewport().get_mouse_position()
 	var viewport = get_viewport()
 func _physics_process(delta):
+
+
 	Globaldata.player_position = position
+	if spawning:
+		if $RayCast3d.is_colliding():
+			if $RayCast3d.get_collider().get_class() == "Water":
+				spawn()
+			else:
+				spawning = false
 	if Input.is_action_just_pressed("PLUS"):
 		if launchSpeed < launchSpeedLimit:
 			launchSpeed += 1
@@ -50,7 +62,7 @@ func _physics_process(delta):
 			movingToTarget = true
 			moveRotation.y = atan2(moveTarget.x - global_position.x, moveTarget.z - global_position.z)
 
-	if global_position.distance_to(moveTarget) < 1.0:
+	if global_position.distance_to(moveTarget) < 1.5:
 			movingToTarget = false
 	if movingToTarget:
 		forwardSpeed = 1
@@ -103,3 +115,8 @@ func _physics_process(delta):
 
 func map(x, in_min, in_max, out_min, out_max):
 	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
+
+
+func _on_area_3d_body_entered(body):
+	if body.get_class() == "Water":
+		queue_free()

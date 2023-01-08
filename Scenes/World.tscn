@@ -1,14 +1,11 @@
 [gd_scene load_steps=4 format=3 uid="uid://bgo3sr5h5vfpg"]
 
 [ext_resource type="Script" path="res://Scripts/World.gd" id="1_1s24n"]
-[ext_resource type="PackedScene" uid="uid://c8m51laarjuak" path="res://Scenes/Player.tscn" id="3_34361"]
+[ext_resource type="PackedScene" uid="uid://de7ibc6xrncra" path="res://Scenes/Water.tscn" id="4_16i2o"]
 [ext_resource type="Script" path="res://Scripts/Camera3d.gd" id="4_fj2l0"]
 
 [node name="World" type="Node3D"]
 script = ExtResource("1_1s24n")
-
-[node name="Player" parent="." instance=ExtResource("3_34361")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.57463, 12.5103, 12.3476)
 
 [node name="SunLight" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -0.752095, 0.659054, 0, -0.659054, -0.752095, 0, 152.335, 0)
@@ -23,3 +20,5 @@ script = ExtResource("4_fj2l0")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 409.091, 0)
 light_color = Color(0.952941, 0.72549, 0.403922, 1)
 light_energy = 0.2
+
+[node name="Water" parent="." instance=ExtResource("4_16i2o")]
