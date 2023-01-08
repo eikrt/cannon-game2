@@ -10,3 +10,4 @@ res://Scripts/Water.gd
 res://Scripts/Chunk.gd
 res://Scripts/World.gd
 res://Scripts/Constants.gd
+res://Scripts/Camera3d.gd

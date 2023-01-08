@@ -57,12 +57,12 @@ func _physics_process(delta):
 	rayEnd = rayOrigin + camera.project_ray_normal(mouse) * 2000
 	var intersection = space_state.intersect_ray(PhysicsRayQueryParameters3D.create(rayOrigin,rayEnd))
 	if intersection:
-		if Input.is_action_pressed("MOUSE_LEFT"):
+		if Input.is_action_pressed("MOUSE_RIGHT"):
 			moveTarget = intersection.position
 			movingToTarget = true
 			moveRotation.y = atan2(moveTarget.x - global_position.x, moveTarget.z - global_position.z)
 
-	if global_position.distance_to(moveTarget) < 1.5:
+	if global_position.distance_to(moveTarget) < 2.0:
 			movingToTarget = false
 	if movingToTarget:
 		forwardSpeed = 1

@@ -89,13 +89,12 @@ func delete_things(destruction_pos, explosionRadius):
 					if p_c_x - 1 < 0:
 						continue
 					chunk = chunksArray[p_c_x - 1][p_c_y][p_c_z]
-
 				elif real_y > Constants.height:
 					real_y = real_y - Constants.height - 1
 					chunk = chunksArray[p_c_x][p_c_y][p_c_z]
 				elif real_y < 0:
 					real_y = Constants.chunkSize - abs(real_y) + 1
-					chunk = chunksArray[p_c_x + 1][p_c_y][p_c_z]
+					chunk = chunksArray[p_c_x][p_c_y][p_c_z]
 				elif real_z > Constants.chunkSize:
 					real_z = real_z - Constants.chunkSize - 1
 					chunk = chunksArray[p_c_x][p_c_y][p_c_z + 1]

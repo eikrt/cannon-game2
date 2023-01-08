@@ -70,16 +70,16 @@ func generateTerrain(chunk_x, chunk_y, chunk_z):
 		for y in range(height):
 			for z in range(size):
 				var block = blockArray[x][y][z]
-				var absoluteVector = Vector3(x + chunk_x * Constants.chunkSize, y + chunk_y * Constants.chunkSize, z + chunk_z * Constants.chunkSize)
-				var distFromCenter = absoluteVector.distance_to(Vector3(centerPoint, 0, centerPoint))
-				var distFactor = distFromCenter / 10.0
+				var absoluteVector = Vector2((x + chunk_x * Constants.chunkSize) * Constants.blockSize, (z + chunk_z * Constants.chunkSize)* Constants.blockSize)
+				var distFromCenter = absoluteVector.distance_to(Vector2(centerPoint, centerPoint))
+				var distFactor = pow(distFromCenter,1) / 6.0
 				
 				block.sample = -abs(noise.get_noise_3d(block.position.x,block.position.y,block.position.z))*14 + block.position.y + distFactor
 
 				var hillSample = noise.get_noise_3d(block.position.x,block.position.y,block.position.z)*100 + block.position.y*1
 				
-				if hillSample < block.sample && distFromCenter < 6:
-					block.sample = hillSample
+				#if hillSample < block.sample && distFromCenter < 6:
+			#		block.sample = hillSample
 
 func addGridToWorld():
 	for x in range(size):
