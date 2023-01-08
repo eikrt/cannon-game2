@@ -1,10 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://c8m51laarjuak"]
+[gd_scene load_steps=7 format=3 uid="uid://c8m51laarjuak"]
 
 [ext_resource type="Script" path="res://Scripts/KinematicBody.gd" id="1"]
+[ext_resource type="Shader" path="res://Shaders/DirectionMeter.gdshader" id="2_nir26"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_tp83u"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_bfb2t"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nm0ov"]
+render_priority = 0
+shader = ExtResource("2_nir26")
+shader_parameter/direction = null
+
+[sub_resource type="SphereMesh" id="SphereMesh_xh4mp"]
+material = SubResource("ShaderMaterial_nm0ov")
 
 [node name="CharacterBody3D" type="CharacterBody3D"]
 script = ExtResource("1")
@@ -26,3 +35,7 @@ shape = SubResource("BoxShape3D_bfb2t")
 [node name="SpringArm3d" type="SpringArm3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.02821, 0)
 spring_length = 2.0
+
+[node name="DirectionMeter" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+mesh = SubResource("SphereMesh_xh4mp")

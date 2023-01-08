@@ -1,6 +1,6 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://o85n1dv2dlq"]
 
-[sub_resource type="Shader" id=1]
+[sub_resource type="Shader" id="1"]
 code = "shader_type spatial;
 render_mode blend_mix,depth_draw_opaque,cull_front,diffuse_burley,specular_schlick_ggx,vertex_lighting;
 
@@ -37,7 +37,8 @@ void fragment() {
 "
 
 [resource]
-shader = SubResource( 1 )
-shader_param/grass = Color( 0.207843, 0.431373, 0.168627, 1 )
-shader_param/dirt = Color( 0.490196, 0.329412, 0.223529, 1 )
-shader_param/rock = Color( 0.32549, 0.32549, 0.32549, 1 )
+render_priority = 0
+shader = SubResource("1")
+shader_parameter/dirt = Color(0.490196, 0.329412, 0.223529, 1)
+shader_parameter/grass = Color(0.207843, 0.431373, 0.168627, 1)
+shader_parameter/rock = Color(0.32549, 0.32549, 0.32549, 1)
