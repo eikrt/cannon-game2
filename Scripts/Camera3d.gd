@@ -53,4 +53,3 @@ func _physics_process(delta):
 func _input(event):
 	if event is InputEventMouseMotion:
 		mouseDelta = event.relative
-

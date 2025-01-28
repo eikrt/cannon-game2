@@ -8,8 +8,8 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_741nl"]
 render_priority = 0
 shader = ExtResource("1_8dxlb")
-shader_parameter/normalmap = ExtResource("2_70ti2")
 shader_parameter/tex = ExtResource("3_2lh6d")
+shader_parameter/normalmap = ExtResource("2_70ti2")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_733x4"]
 material = SubResource("ShaderMaterial_741nl")
